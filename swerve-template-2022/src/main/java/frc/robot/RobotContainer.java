@@ -25,8 +25,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
 
-  // private final XboxController m_controller = new XboxController(0);
-  private final Joystick m_joystick = new Joystick(0);
+  private final XboxController m_controller = new XboxController(0);
+  // private final Joystick m_joystick = new Joystick(0);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -38,19 +38,20 @@ public class RobotContainer {
     // Left stick X axis -> left and right movement
     // Right stick X axis -> rotation
 
-    // m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
-    //         m_drivetrainSubsystem,
-    //         () -> -modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-    //         () -> -modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-    //         () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
-    // ));
-
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
-        m_drivetrainSubsystem,
-        () -> -modifyAxis(m_joystick.getRawAxis(1) * -1) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_joystick.getRawAxis(0)) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_joystick.getRawAxis(2)) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+            m_drivetrainSubsystem,
+            () -> -modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+            () -> -modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+            () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     ));
+
+    // joystick
+    // m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
+    //     m_drivetrainSubsystem,
+    //     () -> -modifyAxis(m_joystick.getRawAxis(1) * -1) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+    //     () -> -modifyAxis(m_joystick.getRawAxis(0)) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+    //     () -> -modifyAxis(m_joystick.getRawAxis(2)) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+    // ));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -65,9 +66,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
     // TODO map a button to zero gyroscope
-    // new Button(m_controller::getBackButton)
-    //         // No requirements because we don't need to interrupt anything
-    //         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+    new Button(m_controller::getBackButton)
+            // No requirements because we don't need to interrupt anything
+            .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
   }
 
   /**

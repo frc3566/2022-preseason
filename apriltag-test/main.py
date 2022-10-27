@@ -2,8 +2,6 @@
 #!/usr/bin/env python
 import copy
 import time
-import argparse
-
 import cv2 as cv
 from pupil_apriltags import Detector
 
